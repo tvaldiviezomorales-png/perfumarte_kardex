@@ -1,5 +1,5 @@
 // ===== CONSTANTES =====
-const CONTAINER_TARE = { blanco: 30.75, dorado: 31.65, otro: 0 }; // "otro" se define manualmente
+const CONTAINER_TARE = { blanco: 29.5, dorado: 30.5, otro: 0 }; // "otro" se define manualmente
 
 const STORES = [
   'CALLE 1','LINCE','TRUJILLO','MIRAFLORES','GAMARRA',
@@ -623,6 +623,9 @@ function renderIndividual(grid, items) {
     card.style.borderTopColor = b.color || '#c8005a';
     const contIcon = b.container==='dorado' ? '🟨' : '⬜';
     const dot = `<span class="color-dot" style="background:${b.color||'#c8005a'}"></span>`;
+    const fechaStr = b.addedAt
+      ? `<div class="bottle-date">📅 ${new Date(b.addedAt).toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',year:'numeric'})}</div>`
+      : '';
     card.innerHTML = `
       <div class="bottle-code">${b.code}${serial}</div>
       <div class="bottle-name">${dot}${b.name||'<span style="opacity:.4">Sin nombre</span>'}</div>
@@ -632,6 +635,7 @@ function renderIndividual(grid, items) {
         <div class="weight-row gross">Bruto: <span>${b.weightGross.toFixed(3)} g</span></div>
         <div class="weight-row net">Neto: <span>${b.weightNet.toFixed(3)} g</span></div>
       </div>
+      ${fechaStr}
       <div class="bottle-actions">
         <button class="btn btn-edit" onclick="openEditModal('${b.id}')">✏️</button>
         <button class="btn btn-use"  onclick="useBottle('${b.id}')">✅ Usar</button>
@@ -710,10 +714,14 @@ function formatTime(iso) {
 
 // ===== STATS =====
 function updateStats() {
-  const total = inventory.length;
-  const codes = new Set(inventory.map(b=>b.code)).size;
+  const total  = inventory.length;
+  const codes  = new Set(inventory.map(b=>b.code)).size;
+  const totalF = inventory.filter(b => b.code.startsWith('F')).length;
+  const totalM = inventory.filter(b => b.code.startsWith('M')).length;
   document.getElementById('total-bottles').textContent = `${total} botella${total!==1?'s':''}`;
   document.getElementById('total-codes').textContent   = `${codes} esencia${codes!==1?'s':''}`;
+  document.getElementById('total-fem').textContent     = `👩 ${totalF} mujer`;
+  document.getElementById('total-hom').textContent     = `👨 ${totalM} hombre`;
 }
 
 // ===== EXCEL =====
@@ -829,8 +837,8 @@ function downloadTemplate() {
     ['Peso Bruto (g)',   'Peso total con envase incluido',          'Número. Ej: 282.50'],
     ['','',''],
     ['TARAS AUTOMÁTICAS:','',''],
-    ['blanco','30.75 g','Se descuenta automáticamente al importar'],
-    ['dorado','31.65 g','Se descuenta automáticamente al importar'],
+    ['blanco','29.5 g','Se descuenta automáticamente al importar'],
+    ['dorado','30.5 g','Se descuenta automáticamente al importar'],
     ['otro',  'manual', 'Escribe el peso en la columna C'],
     ['','',''],
     ['PISOS DE ESTA TIENDA:','',''],
