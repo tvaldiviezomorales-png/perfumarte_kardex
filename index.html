@@ -121,12 +121,12 @@
             <label class="container-opt" id="opt-blanco">
               <input type="radio" name="input-container" value="blanco" checked />
               <span class="container-icon">⬜</span>
-              <span>Blanco<br><small>−30.75 g</small></span>
+              <span>Blanco<br><small>−29.5 g</small></span>
             </label>
             <label class="container-opt" id="opt-dorado">
               <input type="radio" name="input-container" value="dorado" />
               <span class="container-icon">🟨</span>
-              <span>Dorado<br><small>−31.65 g</small></span>
+              <span>Dorado<br><small>−30.5 g</small></span>
             </label>
             <label class="container-opt" id="opt-otro">
               <input type="radio" name="input-container" value="otro" />
@@ -208,7 +208,10 @@
 
     <!-- Historial -->
     <section class="panel history-panel">
-      <h2>📋 Historial de Movimientos</h2>
+      <div class="history-header">
+        <h2>📋 Historial de Movimientos</h2>
+        <input type="text" id="history-search" placeholder="🔍 Buscar en historial..." oninput="renderHistory()" />
+      </div>
       <div id="history-list"></div>
     </section>
   </div>

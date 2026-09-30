@@ -683,9 +683,22 @@ function renderGrouped(grid, items) {
 // ===== HISTORIAL =====
 function renderHistory() {
   const list = document.getElementById('history-list');
+  const q = (document.getElementById('history-search')?.value || '').trim().toUpperCase();
   list.innerHTML = '';
-  if (history.length === 0) { list.innerHTML = '<div class="empty-msg">Sin movimientos aún.</div>'; return; }
-  history.slice(0,80).forEach(h => {
+  const filtered = q
+    ? history.filter(h =>
+        h.code.toUpperCase().includes(q) ||
+        (h.name  || '').toUpperCase().includes(q) ||
+        (h.brand || '').toUpperCase().includes(q)
+      )
+    : history;
+  if (filtered.length === 0) {
+    list.innerHTML = q
+      ? `<div class="empty-msg">Sin resultados para "${q}".</div>`
+      : '<div class="empty-msg">Sin movimientos aún.</div>';
+    return;
+  }
+  filtered.slice(0, 80).forEach(h => {
     const item = document.createElement('div');
     item.className = `history-item ${h.type}`;
     const icon  = h.type==='entrada' ? '📥' : '📤';

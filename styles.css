@@ -476,6 +476,23 @@ input[type="color"] {
 }
 
 /* ===== HISTORY ===== */
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.history-header h2 { margin-bottom: 0; }
+
+.history-header input {
+  flex: 1;
+  min-width: 180px;
+  max-width: 320px;
+}
+
 #history-list {
   display: flex;
   flex-direction: column;
